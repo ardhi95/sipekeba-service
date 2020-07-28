@@ -99,21 +99,24 @@ class Users extends MY_Controller {
 
 	public function update_akun()
 	{
-		$users_code =   $this->post('id_user');
+		$users_code =   $this->post('id');
         if ($users_code) {
 
-        $data = array(
-            'username'  => $this->post('username'),
-            'password'  => $this->post('password'),       
-            'email'     => $this->post('email'),
-            'nama_user' => $this->post('nama_user'),
-            'jk'        => $this->post('jk'),
-            'ttl'       => $this->post('ttl'),
-            'tinggi'    => $this->post('tinggi'),
-            'berat'     => $this->post('berat'),
-            'umur'      => $this->post('umur'),
-            'kalori'    => $this->post('kalori')
-        );
+            $data = array(
+                "email"              => $this->post("email"),
+                "username"           => $this->post("username"),
+                "password"           => md5($this->post("password")),
+                "nama"               => $this->post("nama"),
+                "jenis_kelamin"      => $this->post("jenis_kelamin"),
+                "alamat"             => $this->post("alamat"),
+                "tempat_lahir"       => $this->post("tempat_lahir"),
+                "tanggal_lahir"      => $this->convert_date($this->post("tanggal_lahir")),
+                "agama"              => $this->post("agama"),
+                "pekerjaan"          => $this->post("pekerjaan"),
+                "kewarganegaraan"    => $this->post("kewarganegaraan"),
+                "modified"           => date("Y-m-d H:i:s"),
+                "status"             => "1"
+            );
 
             if ($data != NULL) {
                 $update = $this->usr->update($data, $users_code);
@@ -130,71 +133,71 @@ class Users extends MY_Controller {
        }
     }
 
-public function update_profile()
-    {
-        $users_code =   $this->post('ucode');
-        if ($users_code) {
-            $data = NULL;
-            if ($this->post('username') != "") {
-                $data["users_login_username"] = $this->post('username');
-            }
-            if ($this->post('password') != "") {
-                $data["users_login_password"] = $this->post('password');
-            }
-            if ($this->post('email') != "") {
-                $data["users_email"] = $this->post('email');
-            }
-            if ($this->post('first_name') != "") {
-                $data["users_first_name"] = $this->post('first_name');
-            }
-            if ($this->post('mid_name') != "") {
-                $data["users_mid_name"] = $this->post('mid_name');
-            }
-            if ($this->post('last_name') != "") {
-                $data["users_last_name"] = $this->post('last_name');
-            }
-            if ($this->post('gender') != "") {
-                $data["users_gender"] = $this->post('gender');
-            }
-            if ($this->post('date_of_birth') != "") {
-                $data["users_date_of_birth"] = $this->post('birth');
-            }
-            if ($this->post('website') != "") {
-                $data["users_website"] = $this->post('website');
-            }
-            if ($this->post('bio') != "") {
-                $data["users_bio"] = $this->post('bio');
-            }
-            if ($this->post('phone') != "") {
-                $data["users_phone"] = $this->post('phone');
-            }
-            if ($data != NULL) {
-                $update = $this->users->update($data, $users_code);
-                if ($update) {
-                    $this->_api(JSON_SUCCESS, "Success Update");
-                } else {
-                    $this->_api(JSON_ERROR, "Failed Update");
-                }
-            } else {
-                $this->_api(JSON_ERROR, "Failed Update");
-            }
-        }else{
-            $this->_api(JSON_ERROR, "Failed Update");
-        }
-    }
+// public function update_profile()
+//     {
+//         $users_code =   $this->post('ucode');
+//         if ($users_code) {
+//             $data = NULL;
+//             if ($this->post('username') != "") {
+//                 $data["users_login_username"] = $this->post('username');
+//             }
+//             if ($this->post('password') != "") {
+//                 $data["users_login_password"] = $this->post('password');
+//             }
+//             if ($this->post('email') != "") {
+//                 $data["users_email"] = $this->post('email');
+//             }
+//             if ($this->post('first_name') != "") {
+//                 $data["users_first_name"] = $this->post('first_name');
+//             }
+//             if ($this->post('mid_name') != "") {
+//                 $data["users_mid_name"] = $this->post('mid_name');
+//             }
+//             if ($this->post('last_name') != "") {
+//                 $data["users_last_name"] = $this->post('last_name');
+//             }
+//             if ($this->post('gender') != "") {
+//                 $data["users_gender"] = $this->post('gender');
+//             }
+//             if ($this->post('date_of_birth') != "") {
+//                 $data["users_date_of_birth"] = $this->post('birth');
+//             }
+//             if ($this->post('website') != "") {
+//                 $data["users_website"] = $this->post('website');
+//             }
+//             if ($this->post('bio') != "") {
+//                 $data["users_bio"] = $this->post('bio');
+//             }
+//             if ($this->post('phone') != "") {
+//                 $data["users_phone"] = $this->post('phone');
+//             }
+//             if ($data != NULL) {
+//                 $update = $this->users->update($data, $users_code);
+//                 if ($update) {
+//                     $this->_api(JSON_SUCCESS, "Success Update");
+//                 } else {
+//                     $this->_api(JSON_ERROR, "Failed Update");
+//                 }
+//             } else {
+//                 $this->_api(JSON_ERROR, "Failed Update");
+//             }
+//         }else{
+//             $this->_api(JSON_ERROR, "Failed Update");
+//         }
+//     }
 
-	public function delete()
-	{
-		$users_code = $this->post('ucode');
-        if ($users_code != "") {
-            $delete = $this->users->post($users_code);
-            if ($delete) {
-        			$this->_api(JSON_SUCCESS, "Success Delete");
-            } else {
-        		$this->_api(JSON_ERROR, "Failed Delete");
-            }
-        } else {
-    		$this->_api(JSON_ERROR, "Failed Delete");
-        }
-	}
+	// public function delete()
+	// {
+	// 	$users_code = $this->post('ucode');
+    //     if ($users_code != "") {
+    //         $delete = $this->users->post($users_code);
+    //         if ($delete) {
+    //     			$this->_api(JSON_SUCCESS, "Success Delete");
+    //         } else {
+    //     		$this->_api(JSON_ERROR, "Failed Delete");
+    //         }
+    //     } else {
+    // 		$this->_api(JSON_ERROR, "Failed Delete");
+    //     }
+	// }
 }

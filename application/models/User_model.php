@@ -45,6 +45,15 @@ class User_model extends MY_Model {
     return $query->num_rows() ;
   }
 
+  public function update($data, $id)
+  {
+    $this->db->set($data);
+    $this->db->where('id', $id);
+    $query  = $this->db->update($this->table);
+
+    return $query;
+  }
+
   // ------------------------------------------------------------------------
 
 }
