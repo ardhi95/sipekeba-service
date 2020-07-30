@@ -28,6 +28,12 @@ class Layanan_model extends MY_Model {
     return $query;
   }
 
+  public function getSyaratById($id)
+  {
+    $query = $this->db->get_where('m_syarat_layanan', array("id_layanan" => $id), null, null);
+    return $query;
+  }
+
   // ------------------------------------------------------------------------
 
 }

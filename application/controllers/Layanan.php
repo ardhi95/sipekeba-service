@@ -38,6 +38,7 @@ class Layanan extends MY_Controller {
         $id     =   $this->post("id");
         if (!empty($id)) {
             $data = $this->layanan->getById($id);
+            $dataSyarat = $this->layanan->getSyaratById($id);
 
             if ($data->num_rows() == 0) {
                 $data = false;
@@ -45,7 +46,7 @@ class Layanan extends MY_Controller {
         }
 
         if ($data) {
-            $this->_api(JSON_SUCCESS, "Success get data by id", $data->result());
+            $this->_api(JSON_SUCCESS, "Success get data by id", ["Layanan" => (object)$data->result(), "Syarat" => $dataSyarat->result()]);
         }else{
             $this->_api(JSON_ERROR, "Data tidak ditemukan");
         }
